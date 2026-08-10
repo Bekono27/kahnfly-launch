@@ -10,7 +10,7 @@
     --ink:#160f0a; --ink-2:#241811;
     --brown:#6b3a1c; --brown-lt:#906048;
     --bronze:#a87848; --bronze-lt:#c69a6a;
-    --navy:#1a2438;               /* deep secondary — heritage brown+navy */
+    --navy:#1a2438;--navy-deep:#0f1626;--navy-lt:#3a5580;               /* deep secondary — heritage brown+navy */
     --fg:#efe7dd; --dim:#9a8474; --dimmer:#6a5646;
     --hair:rgba(168,120,72,0.22);
   }
@@ -79,7 +79,7 @@
   .step p{color:#b3a190;line-height:1.65;max-width:54ch;}
 
   /* route stage */
-  .route{position:relative;z-index:3;background:radial-gradient(circle at 50% 34%,#2a1a10,var(--ink) 64%);}
+  .route{position:relative;z-index:3;background:radial-gradient(circle at 50% 34%,#2a1a10 0%,#161522 62%,var(--navy-deep) 100%);}
   .route-wrap{max-width:1300px;margin:0 auto;padding:14vh 5vw;text-align:center;}
   .route .big{margin-bottom:1rem;}
   .airports{display:flex;justify-content:center;gap:clamp(1rem,6vw,5rem);align-items:center;margin:2.2rem 0 0.5rem;flex-wrap:wrap;}
@@ -125,27 +125,29 @@
   .soon button:hover{background:var(--bronze-lt);}
 
   /* scope / ambition ladder */
-  .scope{position:relative;z-index:3;padding:16vh 5vw 12vh;max-width:1300px;margin:0 auto;overflow:hidden;}
+  .scope{position:relative;z-index:3;padding:16vh 5vw 14vh;overflow:hidden;background:linear-gradient(180deg,var(--ink) 0%,#181d2b 40%,var(--navy-deep) 100%);}
+  .scope>.reveal,.scope .ladder{max-width:1300px;margin-left:auto;margin-right:auto;}
   .scope .kick{text-align:center;}
   .scope h2{text-align:center;}
   .ladder{position:relative;margin-top:6rem;padding-left:2px;}
   .ladder::before{content:'';position:absolute;left:14px;top:8px;bottom:8px;width:1px;
-    background:linear-gradient(180deg,var(--bronze) 0%,var(--brown) 60%,rgba(168,120,72,0.15) 100%);}
+    background:linear-gradient(180deg,var(--bronze) 0%,var(--brown) 45%,var(--navy-lt) 78%,rgba(58,85,128,0.2) 100%);}
   .rung{position:relative;display:grid;grid-template-columns:60px 1fr;gap:2rem;padding:2.4rem 0;align-items:start;}
   .rung .dot{position:relative;width:30px;height:30px;border-radius:50%;border:1px solid var(--bronze);
     background:var(--ink);display:flex;align-items:center;justify-content:center;z-index:2;}
   .rung .dot span{width:8px;height:8px;border-radius:50%;background:var(--bronze);}
-  .rung.far .dot{border-color:var(--brown-lt);border-style:dashed;}
-  .rung.far .dot span{background:transparent;border:1px solid var(--brown-lt);}
+  .rung.far .dot{border-color:var(--navy-lt);border-style:dashed;box-shadow:0 0 14px rgba(58,85,128,0.5);}
+  .rung.far .dot span{background:transparent;border:1px solid var(--navy-lt);}
   .rung .lvl{font-family:'JetBrains Mono',monospace;font-size:0.68rem;letter-spacing:0.22em;
     text-transform:uppercase;color:var(--bronze-lt);margin-bottom:0.5rem;}
   .rung h3{font-size:clamp(1.4rem,2.6vw,2.1rem);font-weight:800;letter-spacing:-0.02em;line-height:1.05;}
-  .rung.far h3{color:#c9b39a;}
+  .rung.far h3{color:#c3d0e6;}
   .rung p{color:#b3a190;line-height:1.6;max-width:52ch;margin-top:0.7rem;font-size:1.02rem;}
   .rung .tag{display:inline-block;margin-top:0.9rem;font-family:'JetBrains Mono',monospace;
     font-size:0.6rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--dim);
     border:1px solid var(--hair);border-radius:20px;padding:0.3rem 0.8rem;}
   .rung.live .tag{color:#7dd88a;border-color:rgba(125,216,138,0.35);}
+  .rung.far .tag{color:#8fa8cc;border-color:rgba(58,85,128,0.45);}
   @media(max-width:640px){.rung{grid-template-columns:44px 1fr;gap:1.2rem;}.ladder::before{left:11px;}}
 
   /* horizon */
@@ -398,12 +400,13 @@ const ULN={lat:47.92,lon:106.92},DXB={lat:25.25,lon:55.36};
 var va=ll(ULN.lat,ULN.lon),vb=ll(DXB.lat,DXB.lon);
 var mid=va.clone().add(vb).multiplyScalar(0.5).normalize().multiplyScalar(R*1.5);
 var curve=new THREE.QuadraticBezierCurve3(va.clone().multiplyScalar(1.01),mid,vb.clone().multiplyScalar(1.01));
-scene.add(new THREE.Mesh(new THREE.TubeGeometry(curve,90,0.016,8,false),new THREE.MeshBasicMaterial({color:0xc69a6a})));
+scene.add(new THREE.Mesh(new THREE.TubeGeometry(curve,90,0.018,8,false),new THREE.MeshBasicMaterial({color:0x5c7fb5})));
 var plane=new THREE.Mesh(new THREE.SphereGeometry(0.05,16,16),new THREE.MeshBasicMaterial({color:0xf4ece0}));scene.add(plane);
 var halo=new THREE.Mesh(new THREE.SphereGeometry(0.11,16,16),new THREE.MeshBasicMaterial({color:0xe8d4bc,transparent:true,opacity:0.55}));scene.add(halo);
 scene.add(new THREE.AmbientLight(0x6b5240,1.1));
 var key=new THREE.DirectionalLight(0xfff0e0,1.2);key.position.set(4,3,5);scene.add(key);
 var rim=new THREE.DirectionalLight(0xa87848,0.75);rim.position.set(-5,-2,-3);scene.add(rim);
+var rim2=new THREE.DirectionalLight(0x3a5580,0.5);rim2.position.set(2,-3,-4);scene.add(rim2);
 var t=0,drag=false,px=0,yaw=-1.35,pitch=0.3;
 canvas.addEventListener('pointerdown',function(e){drag=true;px=e.clientX;});
 addEventListener('pointerup',function(){drag=false;});
